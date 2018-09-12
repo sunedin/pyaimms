@@ -6,6 +6,7 @@ import os
 import pandas as pd
 import win32com.client  # import win32com
 
+
 class aimms():
     path = os.path.dirname(os.path.realpath(__file__))
 
@@ -91,5 +92,4 @@ class aimms():
 
 
 if __name__ == '__main__':
-    AIMMS = aimms(path=r'c:\Users\wsun\OneDrive - University of Edinburgh\AIMMS G_converted - AP', project_name='OPF ANM.aimms')
-    print('word')
+    pass

@@ -1,1 +1,1 @@
-python interface package for aimms; Not ready for release
+Provide python interface for aimms; Not ready for release
