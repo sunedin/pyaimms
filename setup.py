@@ -15,6 +15,5 @@ setup(
         author_email='w.sun@ed.ac.uk',
         description='python handler for AIMMS',
         long_description=read('README.rst'),
-        install_requires=['pandas',
-                          'win32com']
+        install_requires=['pandas', 'win32com', 'numpy']
         )
