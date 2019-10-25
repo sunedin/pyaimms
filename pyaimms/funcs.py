@@ -51,10 +51,10 @@ class aimms():
     # define a series of pyaimms defination, for easily get and assign value between pyaimms and python
     # usder-defined function, make receive data from pyaimms easier: call pyaimms com func and retreive data into pandas
     # datafram
-    def run(self, str_command):
-        value_ = self.aimms_handler.Run(str_command)
+    def run(self, *args):
+        value_ = self.aimms_handler.Run(*args)
         if value_ != 0:
-            print('!!! procedure {} NOT run properly !!'.format(str_command))
+            print('!!! procedure {} NOT run properly !!'.format(args[0]))
 
     def aimms_get_indentifier(self, n, In=None):
 
