@@ -1,1 +1,1 @@
-Provide python interface for aimms; Not ready for release
+Provide python short-cut wrapper for aimms com interface functions; Not ready for release
