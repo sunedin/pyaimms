@@ -8,7 +8,7 @@ The Aimms COM object defines four COM interfaces:
 - Aimms.Set, and
 - Aimms.Procedure
 
-Full document can be access at [doc/AIMMS_com.pdf](aimms_com)
+Full document can be access at [aimms_com_document](doc/AIMMS_com.pdf)
 
 *todo*: set.AddElement, set.RanameElement can be added into the shortcuts
 
