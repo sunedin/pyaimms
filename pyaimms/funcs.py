@@ -46,13 +46,13 @@ class aimms():
         AIMMS.ProjectOpen(projectName, 0)
         print(AIMMS)
         print('AIMMS start up successfully !')
-        self.aimms_handler = AIMMS
+        self.aimms_com_handler = AIMMS
 
     # define a series of pyaimms defination, for easily get and assign value between pyaimms and python
     # usder-defined function, make receive data from pyaimms easier: call pyaimms com func and retreive data into pandas
     # datafram
     def run(self, *args):
-        value_ = self.aimms_handler.Run(*args)
+        value_ = self.aimms_com_handler.Run(*args)
         if value_ != 0:
             print('!!! procedure {} NOT run properly !!'.format(args[0]))
 
@@ -61,7 +61,7 @@ class aimms():
         if isinstance(In, str):
             In = self.aimms_get_set(In)
 
-        AimmsArray = list(self.aimms_handler.CreateArray(n))
+        AimmsArray = list(self.aimms_com_handler.CreateArray(n))
         Aimms_df = pd.DataFrame(AimmsArray, index=In, columns=[n])
         return Aimms_df
 
@@ -72,47 +72,48 @@ class aimms():
         if isinstance(Col, str):
             Col = self.aimms_get_set(Col)
 
-        AimmsArray = list(self.aimms_handler.CreateArray(n))
+        AimmsArray = list(self.aimms_com_handler.CreateArray(n))
         Aimms_df = pd.DataFrame(AimmsArray, index=In, columns=Col).applymap(lambda x: x if np.isscalar(x) else x[0])  # tricky, not cleatly explained in aimms manual
         print(Aimms_df.head(3))
         return Aimms_df
 
     def aimms_get_set(self, n):
-        AimmsArray = list(self.aimms_handler.CreateElementArray(n))
+        AimmsArray = list(self.aimms_com_handler.CreateElementArray(n))
         # print AimmsArray[02]
         return AimmsArray
 
     def aimms_get_scalar(self, n):
-        AimmsScalar = self.aimms_handler.Value(n)
+        AimmsScalar = self.aimms_com_handler.Value(n)
         # print AimmsArray[02]
         return AimmsScalar
 
     def aimms_assign_set(self, n, value):
-        self.aimms_handler.GetSet(n).AssignElementArray(value)
+        self.aimms_com_handler.GetSet(n).AssignElementArray(value)
         print('set {} is update to {}'.format(n, value))
 
     def aimms_assign_value(self, n, value):  # pyaimms.value = *, can not properly interpret in python; have to use .assignarray
 
         if np.isscalar(value):
-            AimmsValue = self.aimms_handler.Value(n)
+            AimmsValue = self.aimms_com_handler.Value(n)
             bef = AimmsValue
 
-            self.aimms_handler.GetIdentifier(n).AssignArray((value,))
-            AimmsValue = self.aimms_handler.Value(n)
+            self.aimms_com_handler.GetIdentifier(n).AssignArray((value,))
+            AimmsValue = self.aimms_com_handler.Value(n)
             aft = AimmsValue
 
             print('%s is changed from %s to %s' % (n, bef, aft))
 
         else:
-            self.aimms_handler.GetIdentifier(n).AssignArray(value)
+            self.aimms_com_handler.GetIdentifier(n).AssignArray(value)
             print('array(matrix) of %s is updated' % (n))
 
     def aimms_get_solveinfo(self, opt_instance):
 
-        SolvingTime = self.aimms_handler.Value(str(opt_instance) + '.SolutionTime')  # from ms to min
-        ProgStat = self.aimms_handler.CreateElementArray('AllSolutionStates')[int(self.aimms_handler.Value(str(opt_instance) + '.ProgramStatus')) - 2]  # tricky, not cleatly explained in aimms manual
-        SolvStat = self.aimms_handler.CreateElementArray('AllSolutionStates')[int(self.aimms_handler.Value(str(opt_instance) + '.SolverStatus')) - 2]
-        BestLPSolution = self.aimms_handler.Value(str(opt_instance) + '.Objective')
+        SolvingTime = self.aimms_com_handler.Value(str(opt_instance) + '.SolutionTime')  # from ms to min
+        ProgStat = self.aimms_com_handler.CreateElementArray('AllSolutionStates')[
+            int(self.aimms_com_handler.Value(str(opt_instance) + '.ProgramStatus')) - 2]  # tricky, not cleatly explained in aimms manual
+        SolvStat = self.aimms_com_handler.CreateElementArray('AllSolutionStates')[int(self.aimms_com_handler.Value(str(opt_instance) + '.SolverStatus')) - 2]
+        BestLPSolution = self.aimms_com_handler.Value(str(opt_instance) + '.Objective')
 
         print('OPT stop in {} min with obj value of {}'.format(SolvingTime, BestLPSolution))
         print('ProgStat is {} with SolvStat is {}'.format(ProgStat, SolvStat))
@@ -122,14 +123,14 @@ class aimms():
 
     def aimms_get_OPTinfo(self, opt_instance):
 
-        NumberOfConstraints = self.aimms_handler.Value(str(opt_instance) + '.NumberOfConstraints')
-        NumberOfVariables = self.aimms_handler.Value(str(opt_instance) + '.NumberOfVariables')
+        NumberOfConstraints = self.aimms_com_handler.Value(str(opt_instance) + '.NumberOfConstraints')
+        NumberOfVariables = self.aimms_com_handler.Value(str(opt_instance) + '.NumberOfVariables')
         print('OPT have {} Constraints and {} Variables'.format(NumberOfConstraints, NumberOfVariables))
         opt_info = [NumberOfConstraints, NumberOfVariables]
         return opt_info
 
     def aimms_get_suffix(self, opt_instance, suffix_str):
-        suffix_str_value = self.aimms_handler.Value(str(opt_instance) + '.{}'.format(suffix_str))
+        suffix_str_value = self.aimms_com_handler.Value(str(opt_instance) + '.{}'.format(suffix_str))
         return suffix_str_value
 
     # from AIMMS_def import aimms_get_indentifier, aimms_get_indentifier_crosstab, aimms_get_set, aimms_assign_value
