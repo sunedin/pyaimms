@@ -1,6 +1,0 @@
-Warning at line 3 in user-defined function section "MainExecution".
-The parameter "UnitTransportCost" is not initialized (default values are used).
-Warning at line 3 in user-defined function section "MainExecution".
-The parameter "Supply" is not initialized (default values are used).
-Warning at line 3 in user-defined function section "MainExecution".
-The parameter "Demand" is not initialized (default values are used).

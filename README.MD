@@ -1,11 +1,11 @@
-This package provide a **short-cut** to the most usefully com functions.
+This package provide a python **short-cut** to the most usefully AIMMS com functions.
 
-Full list of com-funcion can be acccess through AIMMS.aimms_com_handler.
+Full list of com-funcion can be acccess through AIMMS.aimms_com_handler. 
 
 The Aimms COM object defines four COM interfaces:
 - Aimms.Project,
 - Aimms.Identifier,
-- Aimms.Set, and
+- Aimms.Setl
 - Aimms.Procedure
 
 Full document can be access at [aimms_com_document](doc/AIMMS_com.pdf)
