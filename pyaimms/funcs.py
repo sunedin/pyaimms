@@ -11,7 +11,7 @@ import win32com.client  # import win32com
 class aimms():
     path = os.path.dirname(os.path.realpath(__file__))
 
-    def __init__(self, path, project_name, v64bit=True, startup_mode=1, cleanup=True, ElementValuePassMode=2):
+    def __init__(self, path, project_name, v64bit=True, startup_mode=2, cleanup=True, ElementValuePassMode=2):
         if cleanup:
             os.system("taskkill /im AimmsCOM.exe /f")
 
@@ -44,7 +44,6 @@ class aimms():
         print(start_up_message)
         print('Project open with startup_mode {} and faultElementValuePassMode {}'.format(startup_mode, ElementValuePassMode))
         AIMMS.ProjectOpen(projectName, 0)
-        print(AIMMS)
         print('AIMMS start up successfully !')
         self.aimms_com_handler = AIMMS
 
